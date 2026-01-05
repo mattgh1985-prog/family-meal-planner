@@ -28,11 +28,11 @@ app.get("/health", (req, res) => {
 });
 
 // Serve the built React app (PWA)
-app.use(express.static(path.join(__dirname, "../../client/dist")));
+app.use(express.static(path.join(__dirname, "../public")));
 
 // React Router fallback (so /members, /shopping etc work on refresh)
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../../client/dist/index.html"));
+ res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 app.listen(PORT, () => {
   console.log(`🚀 Server listening on port ${PORT}`);
