@@ -20,11 +20,20 @@ app.use(morgan("dev"));
 // API routes
 app.use("/api", routes);
 
-// Health check
-app.get("/", (req, res) => {
+const path = require("path");
+
+// Health check (keep it, but move it off the homepage)
+app.get("/health", (req, res) => {
   res.json({ status: "ok", message: "Family Meal Planner API running" });
 });
 
+// Serve the built React app (PWA)
+app.use(express.static(path.join(__dirname, "../../client/dist")));
+
+// React Router fallback (so /members, /shopping etc work on refresh)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../../client/dist/index.html"));
+});
 app.listen(PORT, () => {
   console.log(`🚀 Server listening on port ${PORT}`);
 });
